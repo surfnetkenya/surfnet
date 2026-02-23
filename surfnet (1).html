@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>surf.net — High Speed Internet, Kenya</title>
+<link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800;900&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* ── EXACT BRAND COLORS FROM LOGO ── */
+  --navy:        #1e2d5a;   /* surf text + wifi icon */
+  --navy-dark:   #141e3e;
+  --navy-deeper: #0d1429;
+  --green:       #2db61e;   /* .net + cursor */
+  --green-dark:  #1f8a13;
+  --green-light: #3fd42e;
+  --white:       #ffffff;
+  --off-white:   #f0f4ff;
+  --muted:       #8a9cc7;
+  --border:      rgba(30,45,90,0.3);
+  --card-bg:     rgba(255,255,255,0.04);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--navy-deeper); color: var(--white); font-family: 'Outfit', sans-serif; overflow-x: hidden; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--navy-deeper); }
+::-webkit-scrollbar-thumb { background: var(--green); border-radius: 10px; }
+
+/* ════════════════════════════
+   LOGO SVG COMPONENT (inline)
+════════════════════════════ */
+.logo-svg { height: 36px; width: auto; }
+.logo-link { text-decoration: none; display: inline-flex; align-items: center; }
+
+/* ════════════════════════════
+   NAV
+════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 6%;
+  background: rgba(13,20,41,0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(45,182,30,0.15);
+}
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a { color: var(--muted); font-size: 0.92rem; text-decoration: none; font-weight: 500; transition: color 0.2s; }
+.nav-links a:hover { color: var(--white); }
+.nav-cta {
+  background: var(--green); color: var(--white);
+  padding: 0.65rem 1.5rem; border-radius: 50px;
+  font-weight: 700; font-size: 0.88rem;
+  text-decoration: none; white-space: nowrap;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(45,182,30,0.45); }
+
+/* ════════════════════════════
+   HERO
+════════════════════════════ */
+#hero {
+  min-height: 100vh;
+  padding: 130px 6% 80px;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 4rem; align-items: center;
+  position: relative; overflow: hidden;
+}
+
+/* Background: navy with green accents */
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background: linear-gradient(135deg, #0d1429 0%, #141e3e 60%, #0d1429 100%);
+}
+.glow-navy {
+  position: absolute; width: 700px; height: 700px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(30,45,90,0.9) 0%, transparent 70%);
+  top: -200px; right: -150px; pointer-events: none;
+  animation: floatA 12s ease-in-out infinite;
+}
+.glow-green {
+  position: absolute; width: 400px; height: 400px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(45,182,30,0.2) 0%, transparent 70%);
+  bottom: -100px; left: 0; pointer-events: none;
+  animation: floatB 16s ease-in-out infinite;
+}
+/* Subtle wifi arc decorations */
+.wifi-deco {
+  position: absolute; right: 5%; top: 15%;
+  opacity: 0.04; pointer-events: none;
+  font-size: 28rem; line-height: 1;
+}
+
+@keyframes floatA { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-25px,25px)} }
+@keyframes floatB { 0%,100%{transform:translate(0,0)} 50%{transform:translate(15px,-15px)} }
+
+.hero-left { position: relative; z-index: 1; }
+.hero-right { position: relative; z-index: 1; }
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: rgba(45,182,30,0.12);
+  border: 1px solid rgba(45,182,30,0.35);
+  padding: 0.4rem 1rem; border-radius: 50px;
+  font-size: 0.78rem; font-weight: 600; color: var(--green);
+  margin-bottom: 1.8rem; animation: fadeUp 0.8s ease both;
+}
+.bdot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+h1 {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: clamp(3rem, 5.5vw, 5.2rem);
+  font-weight: 900; line-height: 1.0;
+  letter-spacing: -0.04em; margin-bottom: 1.5rem;
+  animation: fadeUp 0.8s 0.1s ease both;
+}
+/* Navy text with green accent — matching logo */
+h1 .navy { color: var(--white); }
+h1 .green-txt { color: var(--green); }
+
+.hero-p {
+  font-size: 1.08rem; color: var(--muted); line-height: 1.75;
+  max-width: 460px; margin-bottom: 2.5rem;
+  animation: fadeUp 0.8s 0.2s ease both;
+}
+
+.hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; animation: fadeUp 0.8s 0.3s ease both; margin-bottom: 3rem; }
+.btn-green {
+  background: var(--green); color: var(--white);
+  padding: 0.9rem 2.1rem; border-radius: 50px;
+  font-weight: 700; font-size: 0.95rem;
+  text-decoration: none; border: none; cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn-green:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(45,182,30,0.45); }
+.btn-navy {
+  background: transparent;
+  border: 1.5px solid rgba(30,45,90,0.8);
+  background: rgba(30,45,90,0.4);
+  color: var(--white); padding: 0.9rem 2.1rem;
+  border-radius: 50px; font-weight: 500; font-size: 0.95rem;
+  text-decoration: none; transition: border-color 0.2s, background 0.2s;
+  border-color: rgba(255,255,255,0.2);
+}
+.btn-navy:hover { border-color: var(--green); background: rgba(45,182,30,0.1); }
+
+.hero-stats { display: flex; gap: 2.5rem; animation: fadeUp 0.8s 0.4s ease both; }
+.sv { font-family: 'Cabinet Grotesk', sans-serif; font-size: 2rem; font-weight: 900; letter-spacing: -0.03em; }
+.sv .g { color: var(--green); }
+.sl { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+
+/* Hero speed card */
+.hero-card {
+  background: var(--navy);
+  border: 1px solid rgba(45,182,30,0.2);
+  border-radius: 28px; padding: 2.5rem;
+  animation: fadeUp 0.9s 0.3s ease both;
+  position: relative; overflow: hidden;
+}
+.hero-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--navy-dark), var(--green));
+  border-radius: 28px 28px 0 0;
+}
+.speed-display { text-align: center; padding: 1.5rem 0 2rem; }
+.speed-num {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 5.5rem; font-weight: 900; line-height: 1;
+  letter-spacing: -0.05em; color: var(--green);
+}
+.speed-unit { font-size: 1.1rem; color: var(--muted); margin-top: 0.2rem; }
+.bar-wrap { height: 8px; background: rgba(255,255,255,0.08); border-radius: 10px; overflow: hidden; margin: 0.8rem 0 0.4rem; }
+.bar-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--navy), var(--green)); border-radius: 10px; animation: barGrow 2.2s 1s ease forwards; }
+@keyframes barGrow { to { width: 88%; } }
+.bar-lbls { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--muted); }
+.cdiv { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 1.5rem 0; }
+.card-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.metric { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; padding: 1rem; }
+.mv { font-family: 'Cabinet Grotesk', sans-serif; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.03em; }
+.mv.g { color: var(--green); }
+.mv.w { color: var(--white); }
+.ml { font-size: 0.75rem; color: var(--muted); margin-top: 0.2rem; }
+
+/* FREE INSTALLATION BANNER */
+.free-banner {
+  background: linear-gradient(135deg, var(--green-dark), var(--green));
+  border-radius: 16px; padding: 1.2rem 1.5rem;
+  display: flex; align-items: center; gap: 1rem;
+  margin-top: 1.5rem;
+}
+.free-banner-icon { font-size: 1.8rem; }
+.free-banner-text strong { font-family: 'Cabinet Grotesk', sans-serif; font-size: 1.1rem; font-weight: 900; color: var(--white); display: block; }
+.free-banner-text span { font-size: 0.82rem; color: rgba(255,255,255,0.85); }
+
+/* ════════════════════════════
+   WAVE
+════════════════════════════ */
+.wavy { display: block; width: 100%; overflow: hidden; line-height: 0; }
+.wavy svg { display: block; width: 100%; }
+
+/* ════════════════════════════
+   SECTIONS COMMON
+════════════════════════════ */
+section { padding: 6rem 6%; }
+.kicker { font-size: 0.76rem; font-weight: 700; color: var(--green); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.9rem; }
+.sh { font-family: 'Cabinet Grotesk', sans-serif; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 900; letter-spacing: -0.04em; line-height: 1.1; margin-bottom: 1rem; }
+.ss { color: var(--muted); font-size: 1rem; line-height: 1.7; max-width: 520px; }
+
+/* ════════════════════════════
+   SERVICES
+════════════════════════════ */
+#services { background: var(--navy); }
+.services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3.5rem; }
+.svc {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 24px; padding: 2.5rem;
+  transition: transform 0.3s, border-color 0.3s;
+  position: relative; overflow: hidden;
+}
+.svc::after { content: ''; position: absolute; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(45,182,30,0.12), transparent 70%); bottom: -80px; right: -60px; pointer-events: none; }
+.svc:hover { transform: translateY(-6px); border-color: rgba(45,182,30,0.4); }
+.svc-icon { width: 56px; height: 56px; border-radius: 16px; background: var(--green); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 1.5rem; }
+.svc.navy-svc .svc-icon { background: rgba(30,45,90,0.8); border: 1px solid rgba(255,255,255,0.15); }
+.svc h3 { font-family: 'Cabinet Grotesk', sans-serif; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.7rem; }
+.svc p { color: var(--muted); font-size: 0.93rem; line-height: 1.7; margin-bottom: 1.5rem; }
+.svc-perks { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+.svc-perks li { display: flex; align-items: center; gap: 0.6rem; font-size: 0.88rem; color: var(--muted); }
+.svc-perks li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+.stag { display: inline-block; margin-top: 1.5rem; background: rgba(45,182,30,0.15); border: 1px solid rgba(45,182,30,0.35); color: var(--green); padding: 0.3rem 0.9rem; border-radius: 50px; font-size: 0.78rem; font-weight: 600; }
+.stag.nt { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.15); color: var(--muted); margin-left: 0.4rem; }
+
+/* ════════════════════════════
+   PRICING
+════════════════════════════ */
+#pricing { background: var(--navy-deeper); }
+.pricing-hd { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem; margin-bottom: 3.5rem; }
+.plans-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 1.2rem; align-items: start; }
+
+.plan {
+  background: var(--navy);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 24px; padding: 2.2rem;
+  transition: transform 0.3s; position: relative;
+}
+.plan:hover { transform: translateY(-5px); }
+
+/* Featured plan gets green border & navy bg boost */
+.plan.feat {
+  background: linear-gradient(145deg, #1a2d52, #1e3560);
+  border: 2px solid var(--green);
+  transform: scale(1.04);
+  box-shadow: 0 0 50px rgba(45,182,30,0.2);
+}
+.plan.feat:hover { transform: scale(1.04) translateY(-5px); }
+
+.pbadge {
+  position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+  background: var(--green);
+  padding: 0.3rem 1.2rem; border-radius: 50px;
+  font-size: 0.72rem; font-weight: 700; white-space: nowrap; color: var(--white);
+}
+.pname { font-family: 'Cabinet Grotesk', sans-serif; font-size: 0.85rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.8rem; }
+.pspeed { font-family: 'Cabinet Grotesk', sans-serif; font-size: 3.2rem; font-weight: 900; letter-spacing: -0.05em; line-height: 1; color: var(--white); }
+.pspeed small { font-size: 1rem; color: var(--muted); font-weight: 400; }
+
+/* Price in KES */
+.pprice {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 2rem; font-weight: 900; letter-spacing: -0.04em;
+  margin: 1.2rem 0 0; color: var(--green);
+}
+.pprice .cur { font-size: 0.95rem; font-weight: 700; color: var(--green); }
+.pprice .per { font-size: 0.82rem; color: var(--muted); font-weight: 400; }
+.pdesc { font-size: 0.85rem; color: var(--muted); margin: 0.4rem 0 1.5rem; }
+.pdiv { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 1.5rem 0; }
+.pf { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 2rem; }
+.pf li { display: flex; align-items: center; gap: 0.6rem; font-size: 0.88rem; color: var(--muted); }
+.pf .ck { color: var(--green); font-weight: 700; }
+.pf .no { color: #4a5a8a; }
+.pbtn { width: 100%; padding: 0.9rem; border-radius: 50px; border: none; cursor: pointer; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.95rem; transition: transform 0.2s, box-shadow 0.2s; }
+.pbtn.g { background: var(--green); color: var(--white); }
+.pbtn.g:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(45,182,30,0.4); }
+.pbtn.n { background: rgba(30,45,90,0.6); border: 1px solid rgba(255,255,255,0.15); color: var(--white); }
+.pbtn.n:hover { border-color: var(--green); background: rgba(45,182,30,0.1); }
+
+/* First Month FREE callout */
+.free-callout {
+  background: linear-gradient(135deg, var(--navy), #1a3a1a);
+  border: 1px solid rgba(45,182,30,0.3);
+  border-radius: 20px; padding: 2rem;
+  display: flex; align-items: center; gap: 1.5rem;
+  margin-top: 2.5rem; flex-wrap: wrap;
+}
+.free-callout-big {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 3rem; font-weight: 900; color: var(--green);
+  letter-spacing: -0.03em; line-height: 1;
+}
+.free-callout p { font-size: 0.9rem; color: var(--muted); margin-top: 0.3rem; }
+.free-callout strong { color: var(--white); }
+
+/* ════════════════════════════
+   ABOUT
+════════════════════════════ */
+#about { background: var(--navy); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; margin-top: 3rem; }
+.about-text p { color: var(--muted); font-size: 1rem; line-height: 1.8; margin-bottom: 1.5rem; }
+.vals { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+.val { display: flex; align-items: flex-start; gap: 1rem; padding: 1.2rem; border-radius: 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); transition: border-color 0.3s; }
+.val:hover { border-color: rgba(45,182,30,0.35); }
+.val-icon { font-size: 1.4rem; min-width: 36px; }
+.val h4 { font-family: 'Cabinet Grotesk', sans-serif; font-weight: 800; font-size: 1rem; margin-bottom: 0.25rem; }
+.val p { font-size: 0.86rem; color: var(--muted); line-height: 1.6; }
+
+.about-vis { display: flex; flex-direction: column; gap: 1.5rem; }
+.big-stat {
+  background: linear-gradient(135deg, var(--navy-dark), var(--navy));
+  border: 1px solid rgba(45,182,30,0.25);
+  border-radius: 24px; padding: 2.5rem; text-align: center;
+  position: relative; overflow: hidden;
+}
+.big-stat::after { content: ''; position: absolute; width: 250px; height: 250px; border-radius: 50%; background: radial-gradient(circle, rgba(45,182,30,0.1), transparent 70%); bottom: -80px; right: -80px; }
+.bsn { font-family: 'Cabinet Grotesk', sans-serif; font-size: 4rem; font-weight: 900; letter-spacing: -0.05em; color: var(--white); }
+.bsn span { color: var(--green); }
+.bsl { color: var(--muted); font-size: 0.9rem; margin-top: 0.3rem; }
+.sm-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.sm-stat { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 1.5rem; text-align: center; }
+.smn { font-family: 'Cabinet Grotesk', sans-serif; font-size: 2rem; font-weight: 900; letter-spacing: -0.03em; color: var(--green); }
+.sml { font-size: 0.8rem; color: var(--muted); margin-top: 0.3rem; }
+
+/* WhatsApp contact strip */
+.wa-strip {
+  background: #25d366; border-radius: 18px; padding: 1.3rem 1.8rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.wa-strip svg { flex-shrink: 0; }
+.wa-strip-text strong { font-family: 'Cabinet Grotesk', sans-serif; font-size: 1.1rem; font-weight: 900; color: var(--white); display: block; }
+.wa-strip-text span { font-size: 0.82rem; color: rgba(255,255,255,0.85); }
+
+/* ════════════════════════════
+   CONTACT
+════════════════════════════ */
+#contact { background: var(--navy-deeper); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem; align-items: start; margin-top: 3rem; }
+.cl p { color: var(--muted); line-height: 1.7; margin-bottom: 2rem; font-size: 0.95rem; }
+.ci { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem; }
+.ci-icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(45,182,30,0.15); border: 1px solid rgba(45,182,30,0.3); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+.ci-text p { font-size: 0.82rem; color: var(--muted); }
+.ci-text strong { font-size: 0.95rem; }
+
+/* WhatsApp CTA button */
+.wa-btn {
+  display: inline-flex; align-items: center; gap: 0.7rem;
+  background: #25d366; color: var(--white);
+  padding: 0.9rem 1.8rem; border-radius: 50px;
+  font-weight: 700; font-size: 0.95rem; text-decoration: none;
+  margin-top: 1.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.wa-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(37,211,102,0.4); }
+
+.cform { background: var(--navy); border: 1px solid rgba(255,255,255,0.08); border-radius: 28px; padding: 2.5rem; }
+.cform h3 { font-family: 'Cabinet Grotesk', sans-serif; font-size: 1.3rem; font-weight: 800; margin-bottom: 1.8rem; }
+.frow { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.fg { display: flex; flex-direction: column; gap: 0.45rem; margin-bottom: 1rem; }
+.fg label { font-size: 0.8rem; font-weight: 600; color: var(--muted); }
+.fg input, .fg select, .fg textarea {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px; padding: 0.85rem 1rem;
+  color: var(--white); font-family: 'Outfit', sans-serif; font-size: 0.9rem;
+  outline: none; transition: border-color 0.25s, background 0.25s; resize: vertical;
+}
+.fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--green); background: rgba(45,182,30,0.06); }
+.fg select option { background: #141e3e; }
+.fg textarea { min-height: 100px; }
+input::placeholder, textarea::placeholder { color: #4a5a8a; }
+.fsub { width: 100%; padding: 1rem; background: var(--green); border: none; border-radius: 50px; cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 700; color: var(--white); transition: transform 0.2s, box-shadow 0.2s; margin-top: 0.5rem; }
+.fsub:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(45,182,30,0.4); }
+
+/* ════════════════════════════
+   FOOTER
+════════════════════════════ */
+footer { background: var(--navy-dark); border-top: 1px solid rgba(255,255,255,0.07); padding: 4rem 6% 2.5rem; }
+.footer-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+.footer-brand p { color: var(--muted); font-size: 0.88rem; line-height: 1.7; margin-top: 0.8rem; max-width: 260px; }
+.fc h4 { font-family: 'Cabinet Grotesk', sans-serif; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: var(--white); margin-bottom: 1.2rem; }
+.fc ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+.fc a { color: var(--muted); text-decoration: none; font-size: 0.88rem; transition: color 0.2s; }
+.fc a:hover { color: var(--green); }
+.footer-btm { border-top: 1px solid rgba(255,255,255,0.06); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.footer-btm p { font-size: 0.82rem; color: #4a5a8a; }
+
+/* ════════════════════════════
+   ANIMATIONS
+════════════════════════════ */
+@keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ════════════════════════════
+   RESPONSIVE
+════════════════════════════ */
+@media(max-width:1024px) {
+  #hero { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .plans-grid { grid-template-columns: 1fr 1fr; }
+  .plan.feat { transform: none; }
+  .about-grid, .contact-grid { grid-template-columns: 1fr; }
+  .services-grid { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+}
+@media(max-width:640px) {
+  nav .nav-links { display: none; }
+  h1 { font-size: 2.8rem; }
+  .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
+  .frow { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr; }
+  .sm-stats { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════
+     LOGO SVG (matches actual logo: navy wifi icon + cursor + "surf" navy + ".net" green)
+═══════════════════════════ -->
+<svg style="display:none">
+  <symbol id="surfnet-logo" viewBox="0 0 220 60">
+    <!-- Wifi arcs -->
+    <path d="M10,38 Q30,12 56,22" stroke="#1e2d5a" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <path d="M18,46 Q30,28 48,34" stroke="#1e2d5a" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <!-- Cursor dot -->
+    <polygon points="36,50 44,42 42,56" fill="#2db61e"/>
+    <!-- surf text (navy) -->
+    <text x="62" y="50" font-family="Cabinet Grotesk, sans-serif" font-weight="900" font-size="38" fill="#1e2d5a">surf</text>
+    <!-- .net text (green) -->
+    <text x="138" y="50" font-family="Cabinet Grotesk, sans-serif" font-weight="900" font-size="38" fill="#2db61e">.net</text>
+  </symbol>
+</svg>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <!-- Logo: white version for dark nav -->
+  <a href="#" class="logo-link">
+    <svg class="logo-svg" viewBox="0 0 220 55">
+      <path d="M8,36 Q28,10 54,21" stroke="white" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <path d="M16,44 Q28,26 46,33" stroke="white" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <polygon points="34,48 43,40 41,54" fill="#2db61e"/>
+      <text x="58" y="47" font-family="'Cabinet Grotesk',sans-serif" font-weight="900" font-size="36" fill="white">surf</text>
+      <text x="131" y="47" font-family="'Cabinet Grotesk',sans-serif" font-weight="900" font-size="36" fill="#2db61e">.net</text>
+    </svg>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#coverage">Coverage</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="https://wa.me/254731090129" target="_blank" class="nav-cta">📞 +254 731 090 129</a>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="glow-navy"></div>
+  <div class="glow-green"></div>
+  <div class="wifi-deco">〜</div>
+
+  <div class="hero-left">
+    <div class="hero-badge"><span class="bdot"></span> First Month FREE — Limited Time Offer</div>
+    <h1>
+      Enjoy <span class="green-txt">High Speed</span><br>Internet
+    </h1>
+    <p class="hero-p">surf.net offers fast internet connection for home entertainment and business solutions. Reliable, affordable, and locally supported right here in Kenya.</p>
+    <div class="hero-btns">
+      <a href="#pricing" class="btn-green">View Our Plans</a>
+      <a href="https://wa.me/254731090129" target="_blank" class="btn-navy">WhatsApp Us</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="sv"><span class="g">20</span> Mbps</div><div class="sl">Max Speed</div></div>
+      <div><div class="sv"><span class="g">1ST</span></div><div class="sl">Month FREE</div></div>
+      <div><div class="sv">24<span class="g">/7</span></div><div class="sl">Support</div></div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-card">
+      <div class="speed-display">
+        <div class="speed-num">20</div>
+        <div class="speed-unit">Mbps — Fast &amp; Reliable</div>
+        <div class="bar-wrap"><div class="bar-fill"></div></div>
+        <div class="bar-lbls"><span>0</span><span>20 Mbps</span></div>
+      </div>
+      <hr class="cdiv">
+      <div class="card-metrics">
+        <div class="metric"><div class="mv g">Ksh 2k</div><div class="ml">10 Mbps Plan</div></div>
+        <div class="metric"><div class="mv g">Ksh 4k</div><div class="ml">20 Mbps Plan</div></div>
+        <div class="metric"><div class="mv w">1ST</div><div class="ml">Month FREE</div></div>
+        <div class="metric"><div class="mv w">24/7</div><div class="ml">Local Support</div></div>
+      </div>
+      <div class="free-banner">
+        <div class="free-banner-icon">🎉</div>
+        <div class="free-banner-text">
+          <strong>First Month FREE</strong>
+          <span>Connect today — first month on us!</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- wave: hero → services (navy bg) -->
+<div class="wavy"><svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,35 C200,70 400,0 600,35 C800,70 1100,0 1440,35 L1440,70 L0,70 Z" fill="#1e2d5a"/></svg></div>
+
+<!-- ═══ SERVICES ═══ -->
+<section id="services">
+  <div class="reveal">
+    <p class="kicker">What We Offer</p>
+    <h2 class="sh">Fast Internet for<br>Home &amp; Business</h2>
+    <p class="ss">Whether you're streaming, gaming, working from home, or running a business — surf.net has the right plan for you.</p>
+  </div>
+  <div class="services-grid">
+    <div class="svc reveal">
+      <div class="svc-icon">🏠</div>
+      <h3>Home Entertainment</h3>
+      <p>Enjoy seamless streaming, fast browsing, and reliable connectivity for your entire household. Say goodbye to buffering and slow loading pages.</p>
+      <ul class="svc-perks">
+        <li>Stream HD &amp; 4K content without buffering</li>
+        <li>Fast speeds for gaming &amp; video calls</li>
+        <li>Supports multiple devices simultaneously</li>
+        <li>Affordable monthly plans from Ksh 2,000</li>
+        <li>First month free on all plans</li>
+      </ul>
+      <span class="stag">From Ksh 2,000/mo</span>
+    </div>
+    <div class="svc navy-svc reveal">
+      <div class="svc-icon">🏢</div>
+      <h3>Business Solutions</h3>
+      <p>Keep your business connected with fast, reliable internet. From small offices to larger enterprises, we provide dependable connectivity that keeps you productive.</p>
+      <ul class="svc-perks">
+        <li>Dedicated reliable business connectivity</li>
+        <li>Supports point-of-sale, CCTV &amp; cloud tools</li>
+        <li>Priority technical support</li>
+        <li>Scalable plans as your business grows</li>
+        <li>Fast response to any connectivity issues</li>
+      </ul>
+      <span class="stag">Custom Plans</span>
+      <span class="stag nt">Contact for quote</span>
+    </div>
+  </div>
+</section>
+
+<!-- wave -->
+<div class="wavy" style="background:#1e2d5a"><svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0 C360,70 1080,0 1440,50 L1440,70 L0,70 Z" fill="#0d1429"/></svg></div>
+
+<!-- ═══ COVERAGE STRIP ═══ -->
+<div id="coverage" style="background:var(--navy-deeper); padding: 3.5rem 6%;">
+  <div class="reveal" style="text-align:center; margin-bottom: 2rem;">
+    <p class="kicker" style="text-align:center;">Where We Serve</p>
+    <h2 class="sh" style="text-align:center;">Our Coverage Areas</h2>
+    <p class="ss" style="margin: 0 auto; text-align:center;">We currently provide fast, reliable internet across these areas in the Kenyan Coast. Not sure if we cover your street? WhatsApp us!</p>
+  </div>
+  <div class="reveal" style="display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; margin-top:1rem;">
+    <div class="coverage-tile">
+      <div class="ctile-icon">📡</div>
+      <div class="ctile-name">Mtwapa</div>
+      <div class="ctile-status">Active</div>
+    </div>
+    <div class="coverage-tile">
+      <div class="ctile-icon">📡</div>
+      <div class="ctile-name">Bamburi</div>
+      <div class="ctile-status">Active</div>
+    </div>
+    <div class="coverage-tile">
+      <div class="ctile-icon">📡</div>
+      <div class="ctile-name">Shanzu</div>
+      <div class="ctile-status">Active</div>
+    </div>
+    <div class="coverage-tile">
+      <div class="ctile-icon">📡</div>
+      <div class="ctile-name">Utange</div>
+      <div class="ctile-status">Active</div>
+    </div>
+  </div>
+  <div class="reveal" style="text-align:center; margin-top:2rem;">
+    <a href="https://wa.me/254731090129?text=Hello%20surf.net%2C%20I%20would%20like%20to%20check%20if%20you%20cover%20my%20area." target="_blank" class="btn-navy" style="display:inline-block; border:1.5px solid rgba(45,182,30,0.4); padding:0.8rem 2rem; border-radius:50px; color:var(--white); text-decoration:none; font-weight:600; font-size:0.92rem; transition: border-color 0.2s, background 0.2s;">📍 Check if we cover your area</a>
+  </div>
+</div>
+
+<style>
+.coverage-tile {
+  background: var(--navy);
+  border: 1px solid rgba(45,182,30,0.25);
+  border-radius: 20px;
+  padding: 2rem 2.5rem;
+  text-align: center;
+  min-width: 160px;
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+.coverage-tile:hover {
+  transform: translateY(-6px);
+  border-color: var(--green);
+  box-shadow: 0 12px 30px rgba(45,182,30,0.2);
+}
+.ctile-icon { font-size: 2rem; margin-bottom: 0.7rem; }
+.ctile-name {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 1.3rem; font-weight: 900;
+  letter-spacing: -0.02em; color: var(--white);
+  margin-bottom: 0.5rem;
+}
+.ctile-status {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: rgba(45,182,30,0.12);
+  border: 1px solid rgba(45,182,30,0.3);
+  color: var(--green); padding: 0.2rem 0.8rem;
+  border-radius: 50px; font-size: 0.75rem; font-weight: 700;
+}
+.ctile-status::before {
+  content: ''; width: 6px; height: 6px;
+  border-radius: 50%; background: var(--green);
+  animation: blink 2s infinite;
+}
+</style>
+<section id="pricing">
+  <div class="pricing-hd reveal">
+    <div>
+      <p class="kicker">Pricing</p>
+      <h2 class="sh">Simple, Affordable Plans</h2>
+    </div>
+    <p class="ss">Transparent pricing in Kenyan Shillings. No hidden charges. What you see is what you pay.</p>
+  </div>
+
+  <div class="plans-grid">
+    <!-- 8 Mbps -->
+    <div class="plan reveal">
+      <div class="pname">Starter</div>
+      <div class="pspeed">8 <small>Mbps</small></div>
+      <div class="pprice"><span class="cur">Ksh </span>1,500<span class="per">/mo</span></div>
+      <p class="pdesc">Light browsing &amp; social media.</p>
+      <hr class="pdiv">
+      <ul class="pf">
+        <li><span class="ck">✓</span> 8 Mbps Speed</li>
+        <li><span class="ck">✓</span> Unlimited Data</li>
+        <li><span class="ck">✓</span> Home Use</li>
+        <li><span class="ck">✓</span> 1st Month FREE</li>
+        <li><span class="ck">✓</span> WhatsApp Support</li>
+        <li><span class="no">✕</span> Priority Support</li>
+      </ul>
+      <button class="pbtn n" onclick="waChat()">Get Started</button>
+    </div>
+
+    <!-- 10 Mbps -->
+    <div class="plan reveal">
+      <div class="pname">Basic</div>
+      <div class="pspeed">10 <small>Mbps</small></div>
+      <div class="pprice"><span class="cur">Ksh </span>2,000<span class="per">/mo</span></div>
+      <p class="pdesc">Perfect for light home use &amp; browsing.</p>
+      <hr class="pdiv">
+      <ul class="pf">
+        <li><span class="ck">✓</span> 10 Mbps Speed</li>
+        <li><span class="ck">✓</span> Unlimited Data</li>
+        <li><span class="ck">✓</span> Home / Office Use</li>
+        <li><span class="ck">✓</span> 1st Month FREE</li>
+        <li><span class="ck">✓</span> WhatsApp Support</li>
+        <li><span class="no">✕</span> Priority Support</li>
+      </ul>
+      <button class="pbtn n" onclick="waChat()">Get Started</button>
+    </div>
+
+    <!-- 15 Mbps FEATURED -->
+    <div class="plan feat reveal">
+      <div class="pbadge">Best Value</div>
+      <div class="pname">Plus</div>
+      <div class="pspeed">15 <small>Mbps</small></div>
+      <div class="pprice"><span class="cur">Ksh </span>3,000<span class="per">/mo</span></div>
+      <p class="pdesc">Great for families &amp; streaming.</p>
+      <hr class="pdiv">
+      <ul class="pf">
+        <li><span class="ck">✓</span> 15 Mbps Speed</li>
+        <li><span class="ck">✓</span> Unlimited Data</li>
+        <li><span class="ck">✓</span> Home / Office Use</li>
+        <li><span class="ck">✓</span> 1st Month FREE</li>
+        <li><span class="ck">✓</span> 24/7 Support</li>
+        <li><span class="ck">✓</span> Priority Support</li>
+      </ul>
+      <button class="pbtn g" onclick="waChat()">Get Started</button>
+    </div>
+
+    <!-- 20 Mbps -->
+    <div class="plan reveal">
+      <div class="pname">Standard</div>
+      <div class="pspeed">20 <small>Mbps</small></div>
+      <div class="pprice"><span class="cur">Ksh </span>4,000<span class="per">/mo</span></div>
+      <p class="pdesc">Ideal for heavy users &amp; remote work.</p>
+      <hr class="pdiv">
+      <ul class="pf">
+        <li><span class="ck">✓</span> 20 Mbps Speed</li>
+        <li><span class="ck">✓</span> Unlimited Data</li>
+        <li><span class="ck">✓</span> Home / Office Use</li>
+        <li><span class="ck">✓</span> 1st Month FREE</li>
+        <li><span class="ck">✓</span> 24/7 Support</li>
+        <li><span class="ck">✓</span> Priority Support</li>
+      </ul>
+      <button class="pbtn n" onclick="waChat()">Get Started</button>
+    </div>
+
+    <!-- Business -->
+    <div class="plan reveal">
+      <div class="pname">Business</div>
+      <div class="pspeed" style="font-size:2.2rem;">Custom<small></small></div>
+      <div class="pprice" style="font-size:1.4rem;">Contact Us</div>
+      <p class="pdesc">Tailored for businesses that need more.</p>
+      <hr class="pdiv">
+      <ul class="pf">
+        <li><span class="ck">✓</span> Scalable Speeds</li>
+        <li><span class="ck">✓</span> Dedicated Connection</li>
+        <li><span class="ck">✓</span> Static IP Available</li>
+        <li><span class="ck">✓</span> First Month FREE</li>
+        <li><span class="ck">✓</span> Priority 24/7 Support</li>
+        <li><span class="ck">✓</span> SLA Agreement</li>
+      </ul>
+      <button class="pbtn g" onclick="waChat()">Request Quote</button>
+    </div>
+  </div>
+
+  <div class="free-callout reveal">
+    <div>
+      <div class="free-callout-big">1ST MONTH</div>
+      <div style="font-family:'Cabinet Grotesk',sans-serif;font-size:1.3rem;font-weight:800;color:var(--white);">Absolutely FREE</div>
+    </div>
+    <div>
+      <p><strong>Get connected today — your first month is completely free!</strong></p>
+      <p>Sign up now and enjoy your first month of internet at no cost. Call or WhatsApp us to get started today.</p>
+    </div>
+    <div>
+      <a href="https://wa.me/254731090129" target="_blank" class="btn-green" style="display:inline-block;">📲 WhatsApp to Claim</a>
+    </div>
+  </div>
+</section>
+
+<!-- wave -->
+<div class="wavy"><svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,50 C400,0 900,70 1440,20 L1440,70 L0,70 Z" fill="#1e2d5a"/></svg></div>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p class="kicker">About surf.net</p>
+      <h2 class="sh">Local Internet,<br>Real Reliability</h2>
+      <p>surf.net is a locally owned and operated internet service provider, built to give Kenyan homes and businesses the fast, affordable internet they deserve. We currently serve <strong>Mtwapa, Bamburi, Shanzu, and Utange</strong> — and we're growing.</p>
+      <p>From the moment you contact us to the day your connection is live, our team handles everything — professionally and promptly. No runaround, no hidden costs.</p>
+      <div class="vals">
+        <div class="val"><div class="val-icon">⚡</div><div><h4>Fast Speeds, Real Prices</h4><p>10 Mbps at Ksh 2,000 and 20 Mbps at Ksh 4,000 — straightforward, no surprises.</p></div></div>
+        <div class="val"><div class="val-icon">🎁</div><div><h4>First Month FREE</h4><p>New customers enjoy their first full month of internet completely free. No catches.</p></div></div>
+        <div class="val"><div class="val-icon">📍</div><div><h4>Local Support You Can Reach</h4><p>Serving Mtwapa, Bamburi, Shanzu &amp; Utange. Call or WhatsApp us at +254 731 090 129 — real people, quick responses.</p></div></div>
+      </div>
+    </div>
+    <div class="about-vis reveal">
+      <div class="big-stat">
+        <div class="bsn">1ST<span> MO</span></div>
+        <div class="bsl">First month FREE on all plans — get connected risk-free</div>
+      </div>
+      <div class="sm-stats">
+        <div class="sm-stat"><div class="smn">10+</div><div class="sml">Mbps Home Plan</div></div>
+        <div class="sm-stat"><div class="smn">20+</div><div class="sml">Mbps Top Plan</div></div>
+        <div class="sm-stat"><div class="smn">24/7</div><div class="sml">Support Available</div></div>
+        <div class="sm-stat"><div class="smn">Ksh</div><div class="sml">Transparent Billing</div></div>
+      </div>
+      <div class="wa-strip">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+          <circle cx="18" cy="18" r="18" fill="white" fill-opacity="0.2"/>
+          <path d="M18 6C11.373 6 6 11.373 6 18c0 2.126.555 4.121 1.528 5.852L6 30l6.316-1.504A11.94 11.94 0 0018 30c6.627 0 12-5.373 12-12S24.627 6 18 6zm5.906 16.406c-.25.703-1.472 1.344-2.016 1.39-.544.047-1.055.266-3.563-.742-3.016-1.219-4.938-4.297-5.087-4.5-.148-.203-1.203-1.594-1.203-3.043s.765-2.156 1.04-2.453c.273-.297.598-.375.797-.375h.594c.19 0 .453-.07.707.539.266.641.899 2.219.977 2.375.078.156.125.336.023.54-.101.202-.148.328-.296.508-.148.18-.313.398-.445.536-.148.148-.3.313-.13.617.172.305.761 1.258 1.633 2.039 1.12 1 2.063 1.313 2.367 1.46.305.149.484.126.664-.07.18-.196.757-.883 1.164-1.086.203-.101.406-.078.656.023.25.101 1.594.75 1.867.89.273.141.453.212.52.329.065.117.065.68-.186 1.383z" fill="white"/>
+        </svg>
+        <div class="wa-strip-text">
+          <strong>+254 731 090 129</strong>
+          <span>Call or WhatsApp for any inquiries</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- wave -->
+<div class="wavy" style="background:#1e2d5a"><svg viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,20 C500,70 1000,0 1440,40 L1440,70 L0,70 Z" fill="#0d1429"/></svg></div>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact">
+  <div class="contact-grid">
+    <div class="cl reveal">
+      <p class="kicker">Get In Touch</p>
+      <h2 class="sh">Let's Get You<br>Connected</h2>
+      <p>Ready to sign up or have questions about coverage in your area? Reach out — we respond fast.</p>
+
+      <div class="ci">
+        <div class="ci-icon">📞</div>
+        <div class="ci-text"><p>Call / WhatsApp</p><strong>+254 731 090 129</strong></div>
+      </div>
+      <div class="ci">
+        <div class="ci-icon">📍</div>
+        <div class="ci-text"><p>Service Areas</p><strong>Mtwapa · Bamburi · Shanzu · Utange</strong></div>
+      </div>
+      <div class="ci">
+        <div class="ci-icon">🕐</div>
+        <div class="ci-text"><p>Support Hours</p><strong>24/7 — We're always available</strong></div>
+      </div>
+
+      <a href="https://wa.me/254731090129?text=Hello%20surf.net%2C%20I%20would%20like%20to%20enquire%20about%20internet%20plans." target="_blank" class="wa-btn">
+        <svg width="20" height="20" viewBox="0 0 36 36" fill="none"><path d="M18 3C9.716 3 3 9.716 3 18c0 2.66.694 5.156 1.91 7.313L3 33l7.895-1.88A14.92 14.92 0 0018 33c8.284 0 15-6.716 15-15S26.284 3 18 3zm7.383 20.508c-.312.879-1.84 1.68-2.52 1.738-.68.059-1.319.332-4.454-.929-3.77-1.524-6.172-5.371-6.359-5.625-.187-.254-1.504-1.992-1.504-3.804s.957-2.695 1.3-3.066c.342-.371.748-.469.996-.469h.743c.237 0 .566-.088.884.674.332.801 1.124 2.773 1.221 2.969.097.195.156.42.029.674-.127.253-.185.41-.37.635-.184.225-.391.498-.556.67-.185.185-.375.39-.163.77.215.381.951 1.572 2.041 2.549 1.4 1.25 2.579 1.641 2.959 1.825.38.186.604.157.83-.088.225-.244.946-1.103 1.455-1.357.254-.127.507-.098.82.029.312.127 1.992.938 2.334 1.113.341.176.566.264.65.41.082.147.082.85-.232 1.729z" fill="white"/></svg>
+        Chat on WhatsApp
+      </a>
+    </div>
+
+    <div class="cform reveal">
+      <h3>Send Us a Message</h3>
+      <p style="font-size:0.85rem; color:var(--muted); margin-bottom:1.5rem; display:flex; align-items:center; gap:0.4rem;">
+        <span style="color:#25d366; font-size:1rem;">📲</span> Your message will be sent directly to our WhatsApp
+      </p>
+      <form onsubmit="handleForm(event)">
+        <div class="frow">
+          <div class="fg"><label>First Name</label><input type="text" placeholder="John" required></div>
+          <div class="fg"><label>Last Name</label><input type="text" placeholder="Doe" required></div>
+        </div>
+        <div class="fg"><label>Phone Number (WhatsApp preferred)</label><input type="tel" placeholder="+254 700 000 000" required></div>
+        <div class="fg"><label>Your Location / Area</label><input type="text" placeholder="e.g. Mtwapa, Bamburi, Shanzu, Utange..." required></div>
+        <div class="fg">
+          <label>I'm interested in...</label>
+          <select>
+            <option value="">Select a plan</option>
+            <option>Starter — Ksh 1,500/mo (8 Mbps)</option>
+            <option>Basic — Ksh 2,000/mo (10 Mbps)</option>
+            <option>Plus — Ksh 3,000/mo (15 Mbps)</option>
+            <option>Standard — Ksh 4,000/mo (20 Mbps)</option>
+            <option>Business Internet (Custom Quote)</option>
+            <option>Just checking coverage in my area</option>
+          </select>
+        </div>
+        <div class="fg"><label>Message (optional)</label><textarea placeholder="Any questions or specific requirements..."></textarea></div>
+        <button type="submit" class="fsub" id="fsub">📲 Send via WhatsApp</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <!-- White logo for footer -->
+      <a href="#" class="logo-link">
+        <svg class="logo-svg" viewBox="0 0 220 55">
+          <path d="M8,36 Q28,10 54,21" stroke="white" stroke-width="7" fill="none" stroke-linecap="round"/>
+          <path d="M16,44 Q28,26 46,33" stroke="white" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <polygon points="34,48 43,40 41,54" fill="#2db61e"/>
+          <text x="58" y="47" font-family="'Cabinet Grotesk',sans-serif" font-weight="900" font-size="36" fill="white">surf</text>
+          <text x="131" y="47" font-family="'Cabinet Grotesk',sans-serif" font-weight="900" font-size="36" fill="#2db61e">.net</text>
+        </svg>
+      </a>
+      <p>Fast internet for home entertainment and business solutions. Serving Mtwapa, Bamburi, Shanzu &amp; Utange.</p>
+    </div>
+    <div class="fc">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#coverage">Check Coverage</a></li>
+        <li><a href="#coverage">Mtwapa</a></li>
+        <li><a href="#coverage">Bamburi</a></li>
+        <li><a href="#coverage">Shanzu &amp; Utange</a></li>
+      </ul>
+    </div>
+    <div class="fc">
+      <h4>Plans</h4>
+      <ul>
+        <li><a href="#pricing">Starter — Ksh 1,500</a></li>
+        <li><a href="#pricing">Basic — Ksh 2,000</a></li>
+        <li><a href="#pricing">Plus — Ksh 3,000</a></li>
+        <li><a href="#pricing">Standard — Ksh 4,000</a></li>
+        <li><a href="#pricing">Business — Custom</a></li>
+        <li><a href="#pricing">1st Month FREE</a></li>
+      </ul>
+    </div>
+    <div class="fc">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="https://wa.me/254731090129" target="_blank">+254 731 090 129</a></li>
+        <li><a href="https://wa.me/254731090129" target="_blank">WhatsApp Us</a></li>
+        <li><a href="#contact">Send a Message</a></li>
+        <li><a href="#about">About Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-btm">
+    <p>© 2025 surf.net Internet Services. All rights reserved.</p>
+    <p>Privacy Policy · Terms of Service</p>
+  </div>
+</footer>
+
+<script>
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+
+  // WhatsApp shortcut
+  function waChat() {
+    window.open('https://wa.me/254731090129?text=Hello%20surf.net%2C%20I%20am%20interested%20in%20signing%20up%20for%20internet.', '_blank');
+  }
+
+  // Scroll reveal
+  const ro = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+  // Form submit → sends to WhatsApp
+  function handleForm(e) {
+    e.preventDefault();
+    const form = e.target;
+
+    const firstName = form.querySelectorAll('input[type="text"]')[0].value.trim();
+    const lastName  = form.querySelectorAll('input[type="text"]')[1].value.trim();
+    const phone     = form.querySelector('input[type="tel"]').value.trim();
+    const location  = form.querySelectorAll('input[type="text"]')[2].value.trim();
+    const plan      = form.querySelector('select').value || 'Not specified';
+    const message   = form.querySelector('textarea').value.trim();
+
+    const text =
+      `👋 *New Enquiry from surf.net Website*\n\n` +
+      `*Name:* ${firstName} ${lastName}\n` +
+      `*Phone:* ${phone}\n` +
+      `*Location:* ${location}\n` +
+      `*Interested in:* ${plan}\n` +
+      (message ? `*Message:* ${message}\n` : '') +
+      `\n_Sent via surf.net website contact form_`;
+
+    const waURL = `https://wa.me/254731090129?text=${encodeURIComponent(text)}`;
+
+    const btn = document.getElementById('fsub');
+    btn.textContent = '✓ Opening WhatsApp...';
+    btn.style.background = '#25d366';
+    btn.disabled = true;
+
+    window.open(waURL, '_blank');
+
+    setTimeout(() => {
+      btn.textContent = 'Send Message →';
+      btn.style.background = '';
+      btn.disabled = false;
+      form.reset();
+    }, 3000);
+  }
+</script>
+</body>
+</html>
